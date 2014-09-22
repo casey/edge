@@ -7,7 +7,7 @@ endpoint = sys.argv[1]
 vertex_characters = string.ascii_letters + string.digits + '.-_'
 
 def vertex_name(length=32):
-  return ''.join(random.choice(vertex_characters) for _ in range(32))
+  return ''.join(random.choice(vertex_characters) for _ in range(length))
 
 ENDC  = '\033[0m'
 RED   = '\033[31m'
@@ -28,8 +28,8 @@ def okay(msg=''):
     sys.stdout.write("%sOKAY%s\n" % (GREEN, ENDC))
 
 def request(method, a, b, expected_status, expected_text):
-  test('%s %s' % (method, expected_status))
-  r = requests.request(method, '%s/%s/%s' % (endpoint, a,b))
+  test('%s %s' % (method.ljust(4), expected_status))
+  r = requests.request(method, '%s/%s/%s' % (endpoint, a, b))
   r.status_code == expected_status or fail('%s - %s' % (r.status_code, r.text.strip()))
   r.text == expected_text or fail('%s - %s' % (r.status_code, r.text.strip()))
   okay('%s - %s' % (r.status_code, r.text.strip()))
@@ -41,7 +41,6 @@ request('POST', vertex_name(128), vertex_name(  1), 403, "403 Forbidden\n")
 
 a = vertex_name()
 b = vertex_name()
-n = 0
 
 request('GET',  a, b, 200, "0")
 request('POST', a, b, 200, "1")

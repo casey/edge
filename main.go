@@ -2,13 +2,15 @@ package app
 
 import "net/http"
 import "regexp"
+import "fmt"
 import "appengine"
 
 import . "flotilla"
 
-var path_re = regexp.MustCompile(`^/(?P<a>[a-zA-Z0-9._-]{1,64})(?P<b>[a-zA-Z0-9._-]{1,64})$`)
+var path_re = regexp.MustCompile(`^/(?P<a>[a-zA-Z0-9._-]{1,64})/(?P<b>[a-zA-Z0-9._-]{1,64})$`)
 
 func init() {
+  Debug(true)
   Handle("/").Get(get).Post(post).Options(options)
 }
 
@@ -17,15 +19,19 @@ func options(r *http.Request) {
 }
 
 func get(r *http.Request) {
-  _ = appengine.NewContext(r)
+  c := appengine.NewContext(r)
   match := Components(path_re, r.URL.Path)
   Ensure(match != nil, http.StatusForbidden)
-  Status(http.StatusNotImplemented)
+  w, e := weight(c, match["a"], match["b"])
+  Check(e)
+  Body(http.StatusOK, fmt.Sprintf("%v", w), "text/plain")
 }
 
 func post(r *http.Request) {
-  _ = appengine.NewContext(r)
+  c := appengine.NewContext(r)
   match := Components(path_re, r.URL.Path)
   Ensure(match != nil, http.StatusForbidden)
-  Status(http.StatusNotImplemented)
+  w, e := increment(c, match["a"], match["b"])
+  Check(e)
+  Body(http.StatusOK, fmt.Sprintf("%v", w), "text/plain")
 }
