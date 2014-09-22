@@ -1,15 +1,13 @@
 graph
 =====
 
-A directed graph building service. Doesn't exist yet.
+A directed graph building service.
 
 Imaginary API
 -------------
 
-* PUT /A/B -> increment the A -> B directed edge
-* PUT /A/A -> increment A->A self-edge weight
-* GET /A/B -> get edge weight, last update time (eventually consistent)
-* GET /A -> get total outgoing edge weight from A
-* GET / -> get total weight of all edges
-
-This guy will probably need a background task queue to avoid datastore write contention. It might seem weird like a weird service, but I need something to track document revision history, and this seems like the minimum needed to support that.
+* POST /A/B -> Increment the A -> B directed edge weight
+* GET /A/B -> Get A -> B edge weight
+* GET /A -> Get sum of outgoing edge weights from A
+* GET /A/N -> Get Nth heavest edge from A
+* GET /N/A -> Get Nth heavest edge to A
