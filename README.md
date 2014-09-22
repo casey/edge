@@ -1,13 +1,14 @@
-graph
-=====
+edge
+====
 
-A directed graph building service.
+A graph building service.
 
-Imaginary API
--------------
+[Test instance here.](http://rodarmor-edge.appspot.com)
 
-* POST /A/B -> Increment the A -> B directed edge weight
-* GET /A/B -> Get A -> B edge weight
-* GET /A -> Get sum of outgoing edge weights from A
-* GET /A/N -> Get Nth heavest edge from A
-* GET /N/A -> Get Nth heavest edge to A
+API
+---
+
+A vertex name matches `/[a-zA-Z._-][a-zA-Z0-9._-]*/`.
+
+* POST /A/B -> Increment the weight of the edge from vertex A to vertex B.
+* GET /A/B -> Get weight of the edge from vertex A to vertex B.
