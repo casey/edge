@@ -1,7 +1,7 @@
 edge
 ====
 
-A graph building service.
+Directed graph building service
 
 [Test instance here.](http://rodarmor-edge.appspot.com)
 
